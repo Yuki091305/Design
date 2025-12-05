@@ -1,10 +1,20 @@
 {% extends "base_generic.html" %}
-
 {% block content %}
-<h1>Добро пожаловать в Design.pro!</h1>
-<p>Мы создаём красивые интерьеры. Авторизуйтесь, чтобы отправить заявку на дизайн.</p>
+<h1>Design.pro — интерьеры вашей мечты</h1>
 
-{% if not user.is_authenticated %}
-    <p><a href="{% url 'login' %}">Войдите</a> или зарегистрируйтесь.</p>
-{% endif %}
+<p>Заявок в работе: <strong>{{ in_progress_count }}</strong></p>
+
+<h2>Последние выполненные работы:</h2>
+{% for req in completed_requests %}
+<div style="border:1px solid #ccc; padding:10px; margin:10px 0;">
+    <h3>{{ req.title }}</h3>
+    <p><strong>Категория:</strong> {{ req.category }}</p>
+    <p><strong>Дата:</strong> {{ req.created_at|date:"d.m.Y" }}</p>
+    {% if req.design_image %}
+        <img src="{{ req.design_image.url }}" width="200">
+    {% endif %}
+</div>
+{% empty %}
+<p>Нет выполненных работ.</p>
+{% endfor %}
 {% endblock %}

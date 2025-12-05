@@ -4,7 +4,16 @@
 <h2>Мои заявки</h2>
 
 <a href="{% url 'request_create' %}">Создать новую заявку</a>
-
+<form method="get">
+    <label>Фильтр по статусу:</label>
+    <select name="status">
+        <option value="">Все</option>
+        <option value="new" {% if status_filter == 'new' %}selected{% endif %}>Новая</option>
+        <option value="in_progress" {% if status_filter == 'in_progress' %}selected{% endif %}>Принято в работу</option>
+        <option value="completed" {% if status_filter == 'completed' %}selected{% endif %}>Выполнено</option>
+    </select>
+    <button type="submit">Применить</button>
+</form>
 {% if requests %}
     <ul>
     {% for req in requests %}
