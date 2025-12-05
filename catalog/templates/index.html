@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Добро пожаловать в Design.pro!</h1>
+<p>Мы создаём красивые интерьеры. Авторизуйтесь, чтобы отправить заявку на дизайн.</p>
+
+{% if not user.is_authenticated %}
+    <p><a href="{% url 'login' %}">Войдите</a> или зарегистрируйтесь.</p>
+{% endif %}
+{% endblock %}

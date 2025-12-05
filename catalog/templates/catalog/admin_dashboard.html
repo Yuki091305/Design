@@ -1,0 +1,30 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Админка: Все заявки</h2>
+
+{% if requests %}
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Пользователь</th>
+            <th>Название</th>
+            <th>Категория</th>
+            <th>Статус</th>
+            <th>Дата</th>
+            <th>Действие</th>
+        </tr>
+        {% for req in requests %}
+        <tr>
+            <td>{{ req.user|default:"Удалённый пользователь" }}</td>
+            <td>{{ req.title }}</td>
+            <td>{{ req.category|default:"—" }}</td>
+            <td>{{ req.get_status_display }}</td>
+            <td>{{ req.created_at|date:"d.m.Y" }}</td>
+            <td><a href="{% url 'admin_update_status' req.pk %}">Изменить статус</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>Заявок нет.</p>
+{% endif %}
+{% endblock %}

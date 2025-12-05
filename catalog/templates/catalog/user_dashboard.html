@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Мои заявки</h2>
+
+<a href="{% url 'request_create' %}">Создать новую заявку</a>
+
+{% if requests %}
+    <ul>
+    {% for req in requests %}
+        <li>
+            <strong>{{ req.title }}</strong> — {{ req.get_status_display }} 
+            ({{ req.created_at|date:"d.m.Y" }})
+            {% if req.attachment %}
+                | <a href="{{ req.attachment.url }}" target="_blank">План</a>
+            {% endif %}
+            | <a href="{% url 'request_delete' req.pk %}">Удалить</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>У вас пока нет заявок.</p>
+{% endif %}
+{% endblock %}
