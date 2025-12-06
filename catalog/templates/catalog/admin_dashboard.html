@@ -24,6 +24,7 @@
         </tr>
         {% endfor %}
     </table>
+    <a href="{% url 'admin_category_list' %}">Управление категориями</a>
 {% else %}
     <p>Заявок нет.</p>
 {% endif %}

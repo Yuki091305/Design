@@ -21,7 +21,7 @@
             <strong>{{ req.title }}</strong> — {{ req.get_status_display }} 
             ({{ req.created_at|date:"d.m.Y" }})
             {% if req.attachment %}
-                | <a href="{{ req.attachment.url }}" target="_blank">План</a>
+                | <a href="{% url 'request_detail' req.id %}">Просмотр</a>
             {% endif %}
             | <a href="{% url 'request_delete' req.pk %}">Удалить</a>
         </li>

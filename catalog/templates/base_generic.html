@@ -12,6 +12,7 @@
 </head>
 <body>
     <nav>
+        <a href="{% url 'index' %}">Главная</a>
         {% if user.is_authenticated %}
             <a href="{% url 'user_dashboard' %}">Мои заявки</a>
             <a href="{% url 'logout' %}">Выйти</a>
