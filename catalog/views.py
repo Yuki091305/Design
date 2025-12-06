@@ -4,7 +4,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from .models import DesignRequest, Category
 from .forms import UserRegistrationForm, DesignRequestForm, AdminStatusForm
-
+from django.core.exceptions import PermissionDenied
 def index(request):
     completed = DesignRequest.objects.filter(status='completed').order_by('-created_at')[:4]
     in_progress_count = DesignRequest.objects.filter(status='in_progress').count()
@@ -39,6 +39,8 @@ def user_dashboard(request):
 
 @login_required
 def request_create(request):
+    if request.user.is_staff:
+        raise PermissionDenied("Администраторы не могут создавать заявки.")
     if request.method == 'POST':
         form = DesignRequestForm(request.POST, request.FILES)
         if form.is_valid():
@@ -62,6 +64,11 @@ def request_delete(request, pk):
         messages.success(request, "Заявка удалена.")
         return redirect('user_dashboard')
     return render(request, 'catalog/request_confirm_delete.html', {'request': req})
+
+@login_required
+def request_detail(request, pk):
+    req = get_object_or_404(DesignRequest, pk=pk, user=request.user)
+    return render(request, 'catalog/request_detail.html', {'request': req})
 
 @staff_member_required
 def admin_dashboard(request):
